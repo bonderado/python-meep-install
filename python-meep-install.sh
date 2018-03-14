@@ -171,6 +171,8 @@ fi
 ## from passing the "-I" and "-L" parameters to the build script).
 cd python-meep/
 pm_opt=`echo $meep_opt | sed 's/--with//g'`
+## Remove dependencies required for access of the LDOS computation so they are not added multiple times (Diego Caraffini)
+sed -i -e '/^\t/d'  `echo ./meep${pm_opt}.i | sed s/-/_/`
 ## Add dependencies required for access of the LDOS computation (this may require further fixes to yield useful data)
 sed -i -e '/meep-site-init/i\
 	%include "cpointer.i"\
