@@ -167,6 +167,15 @@ if [ ! -d "python-meep" ]; then
     tar xf python-meep-1.4.2.tar
 fi
 
+  # weave is removed from scipy: install the standalone and change import of
+  # obsolete package (Diego Caraffini)
+  pip install --user weave
+  for F in `find python-meep -name \*py`; 
+  do
+    echo "sed -i -e 's/scipy\.weave/weave/g'  $F;"
+    sed -i -e 's/scipy\.weave/weave/g'  $F;
+  done
+
 ## Since we chose to install libmeep*.so to /usr/local/lib, this script has to modify the installation scripts (aside
 ## from passing the "-I" and "-L" parameters to the build script).
 cd python-meep/
